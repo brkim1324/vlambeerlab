@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // MAZE PROC GEN LAB
 // all students: complete steps 1-6, as listed in this file
@@ -18,7 +19,25 @@ public class Pathmaker : MonoBehaviour {
 //	Declare a private integer called counter that starts at 0; 		// counter var will track how many floor tiles I've instantiated
 //	Declare a public Transform called floorPrefab, assign the prefab in inspector;
 //	Declare a public Transform called pathmakerSpherePrefab, assign the prefab in inspector; 		// you'll have to make a "pathmakerSphere" prefab later
+	private int counter = 0;
+	public Transform[] floorPrefab;
+	public Transform PathmakerPrefab;
+	private GameObject[] floorCount;
 
+	public GameObject spheres;
+	
+	public static int globalTileCounter = 0;
+
+	private void Start()
+	{
+		globalTileCounter = 0;
+		
+		counter = 0;
+		
+		
+	}
+	
+	
 
 	void Update () {
 //		If counter is less than 50, then:
@@ -33,6 +52,48 @@ public class Pathmaker : MonoBehaviour {
 //			Increment counter;
 //		Else:
 //			Destroy my game object; 		// self destruct if I've made enough tiles already
+		
+		
+			if (counter <= 30 && globalTileCounter <= 35)
+			{
+				float number = Random.Range(0.0f, 1.0f);
+				if (number < 0.25f)
+				{
+					transform.Rotate(0, 90, 0);
+				}
+				else if (number >= 0.25f && number <= 0.5f)
+				{
+					transform.Rotate(0, -90, 0);
+				}
+
+				else if (number >= 0.9f)
+				{
+					Instantiate(PathmakerPrefab, transform.position, Quaternion.Euler(0f,0f,0f));
+				}
+
+				globalTileCounter++;
+				counter++; 
+				//transform.Translate(0,0,5);
+				int random = Random.Range(0, floorPrefab.Length);
+				Instantiate(floorPrefab[random], transform.position, Quaternion.Euler(0f,0f,0f));
+				transform.Translate(Vector3.forward * 5.2f);
+
+			
+			}
+
+		
+
+		else
+		{
+			Destroy(this.gameObject);
+			Destroy(spheres);
+			
+		}
+
+		
+
+
+
 	}
 
 } // end of class scope
